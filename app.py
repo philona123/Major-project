@@ -14,19 +14,19 @@ st.markdown("# Open Jobs Analyzer and Recommendation System")
 st.sidebar.markdown("## Explore")
 
 data = pd.read_csv('naukri.csv')
-st.write(data.shape)
+
 
 data['joblocation_adress'] = data['joblocation_address'].str.split(',')
 pd.set_option('max_rows', 300000)
-data['joblocation_adress']
+# data['joblocation_adress']
 
 data = data.explode('joblocation_adress')
 pd.set_option('max_rows', 30000)
-data['joblocation_adress'].value_counts()
+# data['joblocation_adress'].value_counts()
 
 counts = data['joblocation_adress'].value_counts()
 data = data.loc[data['joblocation_adress'].isin(counts.index[counts > 25])]
-st.write(data['joblocation_adress'].value_counts())
+# st.write(data['joblocation_adress'].value_counts())
 
 
 
@@ -164,15 +164,23 @@ data['joblocation_adress']=data['joblocation_adress'].replace((' Vadodara/Baroda
                                                                 ('Vadodara','Vadodara','Vadodara','Vadodara',
                                                                  'Vadodara','Vadodara',))
                                                                                                                                   
-pd.set_option('max_rows', 2400)
-data['joblocation_adress']
+# pd.set_option('max_rows', 2400)
+# data['joblocation_adress']
 
 
 counts = data['joblocation_adress'].value_counts()
 data = data.loc[data['joblocation_adress'].isin(counts.index[counts > 25])]
-st.write(data['joblocation_adress'].value_counts())
+# st.write(data['joblocation_adress'].value_counts())
 
-data['experience']
+# Location with Highest Jobs
+fig=plt.figure(figsize=(10,4))
+sns.countplot(data['joblocation_adress'], palette = 'inferno')
+plt.title('Locations with Highest Jobs', fontsize = 20)
+plt.xlabel(' ')
+plt.xticks(rotation = 90)
+st.pyplot(fig)
+
+# data['experience']
 
 pd.set_option('max_rows', 40000)
 data['experience'].str.split(' ')
@@ -188,26 +196,24 @@ data['Max Experience'].value_counts()
 data['Min Experience'] = data['Min Experience'].replace('Not',0)
 data['Max Experience'] = data['Max Experience'].replace(('Mentioned','-1'), (5,5))
 
-# lets convert thenm into numerical data types
+
 data['Min Experience'] = data['Min Experience'].astype('int')
 data['Max Experience'] = data['Max Experience'].astype('int')
 
-# plt.rcParams['figure.figsize'] = (15, 4)
+# Minimum Experience graph
+fig=plt.figure(figsize=(10,4))
+sns.countplot(data['Min Experience'], palette = 'magma')
+plt.xticks(fontsize=9)
+st.pyplot(fig)
 
-# plt.subplot(1, 2, 1)
-# sns.countplot(data['Min Experience'], palette = 'magma')
-# plt.xticks(fontsize = 9)
-# plt.ylabel(" ")
+# Maximum Experience Graph
+fig=plt.figure(figsize=(10,4))
+sns.countplot(data['Max Experience'], palette = 'magma')
+plt.xticks(fontsize=9)
+st.pyplot(fig)
 
-# plt.subplot(1, 2, 2)
-# sns.countplot(data['Max Experience'], palette = 'magma')
-# plt.xticks(fontsize = 9)
-# plt.ylabel(" ")
 
-# plt.suptitle('Distribution of Experience')
-# plt.show()
-
-data['education']
+# data['education']
 
 data['education'] = data['education'].fillna('UG: Any Graduate - Any Specialization')
 data['education'].isnull().sum()
@@ -228,19 +234,19 @@ data['Education'].value_counts()
 
 counts = data['Education'].value_counts()
 data = data.loc[data['Education'].isin(counts.index[counts >= 25])]
-st.write(data['Education'].value_counts())
+# st.write(data['Education'].value_counts())
 
-# plt.rcParams['figure.figsize'] = (12,6)
-# x = data[data['Education'] != 'Any']
-# sns.countplot(y = x['Education'], palette = 'inferno')
-# plt.title('Vacancies for Different Education', fontsize = 20)
-# plt.yticks(fontsize = 20)
-# plt.ylabel(" ")
-# plt.xlabel(" ")
-# plt.show()
+# Vacancies for Different Education
+fig=plt.figure(figsize=(10,4))
+x = data[data['Education'] != 'Any']
+sns.countplot(y = x['Education'], palette = 'inferno')
+plt.title('Vacancies for Different Education', fontsize = 20)
+plt.yticks(fontsize = 20)
+st.pyplot(fig)
 
 
-data['industry']
+
+# data['industry']
 
 data['industry'].str.split(' / ')
 
@@ -253,45 +259,58 @@ data['industry'].isnull().sum()
 data['Industry'] = data['industry'].str.split(' / ')
 data['Industry'] = data['Industry'].apply(lambda x: x[0])
 
-st.write(data['Industry'].value_counts())
+# st.write(data['Industry'].value_counts())
 
-# plt.rcParams['figure.figsize'] = (15, 7)
-# plt.title('Top Sectors for Jobs', fontsize = 20)
-# sns.barplot(y = data['Industry'].value_counts().head(10).index,
-#             x = data['Industry'].value_counts().head(10).values,
-#             palette = 'copper')
-# plt.show()
 
-# plt.rcParams['figure.figsize'] = (15, 10)
-# plt.title('Minimum Experience required from each Industry')
-# sns.barplot(data['Industry'], data['Min Experience'], palette = 'magma')
-# plt.xticks(fontsize = 15, rotation = 90)
-# plt.xlabel(' ')
-# plt.show()
+fig=plt.figure(figsize=(10,4))
 
-data['skills'].head(10)
+# Top Sectors for Jobs Graph
+plt.title('Top Sectors for Jobs', fontsize = 20)
+sns.barplot(y = data['Industry'].value_counts().head(10).index,
+            x = data['Industry'].value_counts().head(10).values,
+            palette = 'copper')
+
+st.pyplot(fig)
+
+# Minimum Experience required from each Industry
+fig=plt.figure(figsize=(13,6))
+plt.title('Minimum Experience required from each Industry')
+sns.barplot(data['Industry'], data['Min Experience'], palette = 'magma')
+plt.xticks(fontsize = 15, rotation = 90)
+st.pyplot(fig)
+
+# data['skills'].head(10)
 
 data['skills'] = data['skills'].fillna(data['skills'].mode()[0])
 data['skills'].isnull().sum()
 
 data['Skills'] = data['skills'].str.split(" - ")
 data['Skills'] = data['Skills'].apply(lambda x: x[1] if len(x) > 1 else x[0])
-st.write(data['Skills'].value_counts())
+# st.write(data['Skills'].value_counts())
 
-# plt.rcParams['figure.figsize'] = (15, 4)
-# plt.title('Requirement of Overall Skills', fontsize = 20)
-# data['Skills'].value_counts().head(25).plot(kind = 'bar', color = 'black')
-# plt.grid()
-# plt.yticks(fontsize = 15)
-# plt.ylabel(" ")
-# plt.xlabel(" ")
-# plt.show()
+# Requirement of Overall Skills Grpah
+fig=plt.figure(figsize=(10,4))
+plt.title('Requirement of Overall Skills', fontsize = 20)
+data['Skills'].value_counts().head(25).plot(kind = 'bar', color = 'black')
+plt.grid()
+plt.yticks(fontsize = 15)
+st.pyplot(fig)
 
 data[['Skills','numberofpositions']].groupby(['Skills']).agg('sum').sort_values(by = 'numberofpositions',
                                  ascending = False).head(15).style.background_gradient(cmap = 'copper')
 
 
-data.columns
+# Top Companies Providing Jobs Graph
+fig=plt.figure(figsize=(10,8))
+sns.barplot(y = data['company'].value_counts().head(30).index,
+            x = data['company'].value_counts().head(30).values,
+            palette = 'inferno')
+plt.title('Top Companies providing Jobs', fontsize = 20)
+plt.yticks(fontsize = 15)
+st.pyplot(fig)
+
+
+# data.columns
 
 data = data.drop(['education',
                   'joblocation_address',
@@ -302,7 +321,7 @@ data = data.drop(['education',
                   'uniq_id',
                   'site_name'], axis = 1)
 
-data.columns
+# data.columns
 
 data.isnull().sum()
 
@@ -313,29 +332,22 @@ data['numberofpositions'] = data['numberofpositions'].astype('int')
 data = data.dropna()
 data.isnull().sum().sum()
 
-data['postdate'].head()
+# data['postdate'].head()
 
 data['postdate'] = data['postdate'].str.split(" ")
 data['postdate'] = data['postdate'].apply(lambda x: x[0])
-data['postdate'].head()
+# data['postdate'].head()
 
 # By looking at the above result we can easily analyze that there are some duplicate
 
 # lets print the no. of rows before removing Duplicates
-st.write("No. of Rows Before Removing Duplicates: ",data.shape[0])
+# st.write("No. of Rows Before Removing Duplicates: ",data.shape[0])
 
 # so lets remove all the duplicates from the data
 data.drop_duplicates(subset = None, keep = 'first', inplace = True)
 
 # lets print the no. of rows after removing Duplicates;
-st.write("No. of Rows After Removing Duplicates: ",data.shape[0])
+# st.write("No. of Rows After Removing Duplicates: ",data.shape[0])
 
 
-plt.rcParams['figure.figsize'] = (15, 12)
-sns.barplot(y = data['company'].value_counts().head(30).index,
-            x = data['company'].value_counts().head(30).values,
-            palette = 'inferno')
-plt.title('Top Companies providing Jobs', fontsize = 20)
-plt.yticks(fontsize = 15)
-plt.show()
 
