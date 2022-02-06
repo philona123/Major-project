@@ -11,23 +11,20 @@ import numpy as np
 
 
 st.markdown("# Open Jobs Analyzer and Recommendation System")
-st.sidebar.markdown("## Explore")
 
 data = pd.read_csv('naukri.csv')
 
 
 data['joblocation_adress'] = data['joblocation_address'].str.split(',')
 pd.set_option('max_rows', 300000)
-# data['joblocation_adress']
+
 
 data = data.explode('joblocation_adress')
 pd.set_option('max_rows', 30000)
-# data['joblocation_adress'].value_counts()
+
 
 counts = data['joblocation_adress'].value_counts()
 data = data.loc[data['joblocation_adress'].isin(counts.index[counts > 25])]
-# st.write(data['joblocation_adress'].value_counts())
-
 
 
 data['joblocation_adress']=data['joblocation_adress'].replace(('(Bengaluru/Bangalore)',' Bangalore',
@@ -164,13 +161,10 @@ data['joblocation_adress']=data['joblocation_adress'].replace((' Vadodara/Baroda
                                                                 ('Vadodara','Vadodara','Vadodara','Vadodara',
                                                                  'Vadodara','Vadodara',))
                                                                                                                                   
-# pd.set_option('max_rows', 2400)
-# data['joblocation_adress']
-
 
 counts = data['joblocation_adress'].value_counts()
 data = data.loc[data['joblocation_adress'].isin(counts.index[counts > 25])]
-# st.write(data['joblocation_adress'].value_counts())
+
 
 # Location with Highest Jobs
 st.write("Location with highest Jobs")
@@ -181,7 +175,7 @@ plt.xlabel(' ')
 plt.xticks(rotation = 90)
 st.pyplot(fig)
 
-# data['experience']
+
 
 pd.set_option('max_rows', 40000)
 data['experience'].str.split(' ')
@@ -216,8 +210,6 @@ plt.xticks(fontsize=9)
 st.pyplot(fig)
 
 
-# data['education']
-
 data['education'] = data['education'].fillna('UG: Any Graduate - Any Specialization')
 data['education'].isnull().sum()
 
@@ -237,7 +229,7 @@ data['Education'].value_counts()
 
 counts = data['Education'].value_counts()
 data = data.loc[data['Education'].isin(counts.index[counts >= 25])]
-# st.write(data['Education'].value_counts())
+
 
 # Vacancies for Different Education
 st.write("Vacancies for different Education")
@@ -249,9 +241,6 @@ plt.yticks(fontsize = 20)
 st.pyplot(fig)
 
 
-
-# data['industry']
-
 data['industry'].str.split(' / ')
 
 data['industry'].isnull().sum()
@@ -262,8 +251,6 @@ data['industry'].isnull().sum()
 
 data['Industry'] = data['industry'].str.split(' / ')
 data['Industry'] = data['Industry'].apply(lambda x: x[0])
-
-# st.write(data['Industry'].value_counts())
 
 
 fig=plt.figure(figsize=(10,4))
@@ -285,14 +272,11 @@ sns.barplot(data['Industry'], data['Min Experience'], palette = 'magma')
 plt.xticks(fontsize = 15, rotation = 90)
 st.pyplot(fig)
 
-# data['skills'].head(10)
-
 data['skills'] = data['skills'].fillna(data['skills'].mode()[0])
 data['skills'].isnull().sum()
 
 data['Skills'] = data['skills'].str.split(" - ")
 data['Skills'] = data['Skills'].apply(lambda x: x[1] if len(x) > 1 else x[0])
-# st.write(data['Skills'].value_counts())
 
 # Requirement of Overall Skills Grpah
 st.write("Requirement of Overall Skills")
@@ -317,9 +301,6 @@ plt.title('Top Companies providing Jobs', fontsize = 20)
 plt.yticks(fontsize = 15)
 st.pyplot(fig)
 
-
-# data.columns
-
 data = data.drop(['education',
                   'joblocation_address',
                   'experience',
@@ -329,33 +310,20 @@ data = data.drop(['education',
                   'uniq_id',
                   'site_name'], axis = 1)
 
-# data.columns
-
 data.isnull().sum()
 
 data['numberofpositions'] = data['numberofpositions'].fillna(1)
 data['numberofpositions'] = data['numberofpositions'].astype('int')
 
-# If the job post date and pay rate is missing it is useless, so lets remove the records where jobppostdate is not mentioned
 data = data.dropna()
 data.isnull().sum().sum()
 
-# data['postdate'].head()
-
 data['postdate'] = data['postdate'].str.split(" ")
 data['postdate'] = data['postdate'].apply(lambda x: x[0])
-# data['postdate'].head()
 
-# By looking at the above result we can easily analyze that there are some duplicate
-
-# lets print the no. of rows before removing Duplicates
-# st.write("No. of Rows Before Removing Duplicates: ",data.shape[0])
-
-# so lets remove all the duplicates from the data
 data.drop_duplicates(subset = None, keep = 'first', inplace = True)
 
-# lets print the no. of rows after removing Duplicates;
-# st.write("No. of Rows After Removing Duplicates: ",data.shape[0])
+
 
 
 
