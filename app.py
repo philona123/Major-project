@@ -26,7 +26,7 @@ pd.set_option('max_rows', 30000)
 counts = data['joblocation_adress'].value_counts()
 data = data.loc[data['joblocation_adress'].isin(counts.index[counts > 25])]
 
-
+# Data Cleaning starts
 data['joblocation_adress']=data['joblocation_adress'].replace(('(Bengaluru/Bangalore)',' Bangalore',
                                                                 ' Bangalore ','Bangalore ','Bengaluru/Bangalore ',
                                                                  ' Bengaluru/Bangalore ',' Bengaluru/Bangalore',
@@ -165,18 +165,6 @@ data['joblocation_adress']=data['joblocation_adress'].replace((' Vadodara/Baroda
 counts = data['joblocation_adress'].value_counts()
 data = data.loc[data['joblocation_adress'].isin(counts.index[counts > 25])]
 
-
-# Location with Highest Jobs
-st.write("Location with highest Jobs")
-fig=plt.figure(figsize=(10,4))
-sns.countplot(data['joblocation_adress'], palette = 'inferno')
-plt.title('Locations with Highest Jobs', fontsize = 20)
-plt.xlabel(' ')
-plt.xticks(rotation = 90)
-st.pyplot(fig)
-
-
-
 pd.set_option('max_rows', 40000)
 data['experience'].str.split(' ')
 
@@ -187,28 +175,11 @@ data['Max Experience'] = data['experience'].apply(lambda x: x[2] if len(x) > 2 e
 data['Min Experience'].value_counts()
 data['Max Experience'].value_counts()
 
-
 data['Min Experience'] = data['Min Experience'].replace('Not',0)
 data['Max Experience'] = data['Max Experience'].replace(('Mentioned','-1'), (5,5))
 
-
 data['Min Experience'] = data['Min Experience'].astype('int')
 data['Max Experience'] = data['Max Experience'].astype('int')
-
-# Minimum Experience graph
-st.write("Minimum Experience vs Vacancies")
-fig=plt.figure(figsize=(10,4))
-sns.countplot(data['Min Experience'], palette = 'magma')
-plt.xticks(fontsize=9)
-st.pyplot(fig)
-
-# Maximum Experience Graph
-st.write("Maximum Experience vs Vacancies")
-fig=plt.figure(figsize=(10,4))
-sns.countplot(data['Max Experience'], palette = 'magma')
-plt.xticks(fontsize=9)
-st.pyplot(fig)
-
 
 data['education'] = data['education'].fillna('UG: Any Graduate - Any Specialization')
 data['education'].isnull().sum()
@@ -217,6 +188,7 @@ data['Education'] = data['education'].str.split(' ')
 data['Education'] = data['Education'].apply(lambda x: x[1] if len(x) > 1 else x[0])
 
 data['Education'].value_counts(dropna = False)
+
 
 data['Education'] = data['Education'].replace(('B.Tech/B.E.','Graduation','Other','-','Not','B.Tech/B.E.,','Postgraduate',
                                                'PG:CA','Diploma,','B.Com,','B.Pharma,','B.A,','BCA,','B.Sc,','MBA/PGDM','B.B.A,',
@@ -231,16 +203,6 @@ counts = data['Education'].value_counts()
 data = data.loc[data['Education'].isin(counts.index[counts >= 25])]
 
 
-# Vacancies for Different Education
-st.write("Vacancies for different Education")
-fig=plt.figure(figsize=(10,4))
-x = data[data['Education'] != 'Any']
-sns.countplot(y = x['Education'], palette = 'inferno')
-plt.title('Vacancies for Different Education', fontsize = 20)
-plt.yticks(fontsize = 20)
-st.pyplot(fig)
-
-
 data['industry'].str.split(' / ')
 
 data['industry'].isnull().sum()
@@ -252,54 +214,12 @@ data['industry'].isnull().sum()
 data['Industry'] = data['industry'].str.split(' / ')
 data['Industry'] = data['Industry'].apply(lambda x: x[0])
 
-
-fig=plt.figure(figsize=(10,4))
-
-# Top Sectors for Jobs Graph
-st.write("Top Sectors for Jobs")
-plt.title('Top Sectors for Jobs', fontsize = 20)
-sns.barplot(y = data['Industry'].value_counts().head(10).index,
-            x = data['Industry'].value_counts().head(10).values,
-            palette = 'copper')
-
-st.pyplot(fig)
-
-# Minimum Experience required from each Industry
-st.write("Minimum Experience required from each Industry")
-fig=plt.figure(figsize=(13,6))
-plt.title('Minimum Experience required from each Industry')
-sns.barplot(data['Industry'], data['Min Experience'], palette = 'magma')
-plt.xticks(fontsize = 15, rotation = 90)
-st.pyplot(fig)
-
 data['skills'] = data['skills'].fillna(data['skills'].mode()[0])
 data['skills'].isnull().sum()
 
 data['Skills'] = data['skills'].str.split(" - ")
 data['Skills'] = data['Skills'].apply(lambda x: x[1] if len(x) > 1 else x[0])
 
-# Requirement of Overall Skills Grpah
-st.write("Requirement of Overall Skills")
-fig=plt.figure(figsize=(10,4))
-plt.title('Requirement of Overall Skills', fontsize = 20)
-data['Skills'].value_counts().head(25).plot(kind = 'bar', color = 'black')
-plt.grid()
-plt.yticks(fontsize = 15)
-st.pyplot(fig)
-
-data[['Skills','numberofpositions']].groupby(['Skills']).agg('sum').sort_values(by = 'numberofpositions',
-                                 ascending = False).head(15).style.background_gradient(cmap = 'copper')
-
-
-# Top Companies Providing Jobs Graph
-st.write("Top Companies Providing Jobs")
-fig=plt.figure(figsize=(10,8))
-sns.barplot(y = data['company'].value_counts().head(30).index,
-            x = data['company'].value_counts().head(30).values,
-            palette = 'inferno')
-plt.title('Top Companies providing Jobs', fontsize = 20)
-plt.yticks(fontsize = 15)
-st.pyplot(fig)
 
 data = data.drop(['education',
                   'joblocation_address',
@@ -323,7 +243,87 @@ data['postdate'] = data['postdate'].apply(lambda x: x[0])
 
 data.drop_duplicates(subset = None, keep = 'first', inplace = True)
 
+# Data Cleaning Ends
 
 
+# .....................................Data Visualization starts...............................
+
+# Location with Highest Jobs
+st.write("Location with highest Jobs")
+fig=plt.figure(figsize=(10,4))
+sns.countplot(data['joblocation_adress'], palette = 'inferno')
+plt.title('Locations with Highest Jobs', fontsize = 20)
+plt.xlabel(' ')
+plt.xticks(rotation = 90)
+st.pyplot(fig)
+
+
+# Minimum Experience graph
+st.write("Minimum Experience vs Vacancies")
+fig=plt.figure(figsize=(10,4))
+sns.countplot(data['Min Experience'], palette = 'magma')
+plt.xticks(fontsize=9)
+st.pyplot(fig)
+
+# Maximum Experience Graph
+st.write("Maximum Experience vs Vacancies")
+fig=plt.figure(figsize=(10,4))
+sns.countplot(data['Max Experience'], palette = 'magma')
+plt.xticks(fontsize=9)
+st.pyplot(fig)
+
+
+# Vacancies for Different Education
+st.write("Vacancies for different Education")
+fig=plt.figure(figsize=(10,4))
+x = data[data['Education'] != 'Any']
+sns.countplot(y = x['Education'], palette = 'inferno')
+plt.title('Vacancies for Different Education', fontsize = 20)
+plt.yticks(fontsize = 20)
+st.pyplot(fig)
+
+# Top Sectors for Jobs Graph
+fig=plt.figure(figsize=(10,4))
+st.write("Top Sectors for Jobs")
+plt.title('Top Sectors for Jobs', fontsize = 20)
+sns.barplot(y = data['Industry'].value_counts().head(10).index,
+            x = data['Industry'].value_counts().head(10).values,
+            palette = 'copper')
+
+st.pyplot(fig)
+
+# Minimum Experience required from each Industry
+st.write("Minimum Experience required from each Industry")
+fig=plt.figure(figsize=(13,6))
+plt.title('Minimum Experience required from each Industry')
+sns.barplot(data['Industry'], data['Min Experience'], palette = 'magma')
+plt.xticks(fontsize = 15, rotation = 90)
+st.pyplot(fig)
+
+
+# Requirement of Overall Skills Grpah
+st.write("Requirement of Overall Skills")
+fig=plt.figure(figsize=(10,4))
+plt.title('Requirement of Overall Skills', fontsize = 20)
+data['Skills'].value_counts().head(25).plot(kind = 'bar', color = 'black')
+plt.grid()
+plt.yticks(fontsize = 15)
+st.pyplot(fig)
+
+# data[['Skills','numberofpositions']].groupby(['Skills']).agg('sum').sort_values(by = 'numberofpositions',
+#                                  ascending = False).head(15).style.background_gradient(cmap = 'copper')
+
+
+# Top Companies Providing Jobs Graph
+st.write("Top Companies Providing Jobs")
+fig=plt.figure(figsize=(10,8))
+sns.barplot(y = data['company'].value_counts().head(30).index,
+            x = data['company'].value_counts().head(30).values,
+            palette = 'inferno')
+plt.title('Top Companies providing Jobs', fontsize = 20)
+plt.yticks(fontsize = 15)
+st.pyplot(fig)
+
+# ....................................Data Visualization Ends..............................................
 
 
