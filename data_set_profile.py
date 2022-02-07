@@ -7,4 +7,6 @@ from streamlit_pandas_profiling import st_profile_report
 df = pd.read_csv("naukri.csv")
 pr = df.profile_report()
 
-st_profile_report(pr)
+
+def show_overview():
+    st_profile_report(pr)
