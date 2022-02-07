@@ -10,7 +10,11 @@ from sklearn.metrics.pairwise import cosine_similarity,linear_kernel
 import numpy as np
 
 
+
+
 st.markdown("# Open Jobs Analyzer and Recommendation System")
+
+
 
 data = pd.read_csv('naukri.csv')
 
