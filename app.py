@@ -248,7 +248,7 @@ data.drop_duplicates(subset = None, keep = 'first', inplace = True)
 
 def shows_analysis():
     # Location with Highest Jobs
-  st.subheader("Analysis Results")
+  st.subheader("📊Analysis Results📉")
   st.write("Location with highest Jobs")
   fig=plt.figure(figsize=(10,4))
   sns.countplot(data['joblocation_adress'], palette = 'inferno')

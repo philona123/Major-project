@@ -243,7 +243,7 @@ data.drop_duplicates(subset = None, keep = 'first', inplace = True)
 
 def show_searchjobs_page():
 
-    st.subheader("Search Jobs")
+    st.subheader("🔍Search Jobs")
     City = st.selectbox("City", list(data['joblocation_adress'].value_counts().index))
     Industry = st.selectbox("Industry", list(data['Industry'].value_counts().index))
     Experience = st.selectbox("Experience", list(data['Min Experience'].value_counts().sort_values(ascending = False).index))

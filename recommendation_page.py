@@ -243,7 +243,7 @@ data.drop_duplicates(subset = None, keep = 'first', inplace = True)
 
 def show_recommendation_page():
     
-    st.subheader("Job Recommenation")
+    st.subheader("📃Job Recommenation")
     x = pd.crosstab(data['Education'],data['Industry'])
 
     Industry = st.selectbox("Industry", list(data['Industry'].value_counts().index))
