@@ -24,7 +24,8 @@ pd.set_option('max_rows', 30000)
 counts = data['joblocation_adress'].value_counts()
 data = data.loc[data['joblocation_adress'].isin(counts.index[counts > 25])]
 
-# Data Cleaning starts
+# .............................................Data Cleaning starts.................................................
+
 data['joblocation_adress']=data['joblocation_adress'].replace(('(Bengaluru/Bangalore)',' Bangalore',
                                                                 ' Bangalore ','Bangalore ','Bengaluru/Bangalore ',
                                                                  ' Bengaluru/Bangalore ',' Bengaluru/Bangalore',
@@ -241,7 +242,7 @@ data['postdate'] = data['postdate'].apply(lambda x: x[0])
 
 data.drop_duplicates(subset = None, keep = 'first', inplace = True)
 
-# Data Cleaning Ends
+# ..........................................Data Cleaning Ends...........................................................
 
 
 # .....................................Data Visualization starts...............................
