@@ -1,4 +1,4 @@
-# Major-project
+# Major project
 CUSAT BTech Degree Final Year Major Research Project. 
 
 ## Project Topic
