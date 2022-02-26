@@ -1,5 +1,5 @@
 # Major project
-CUSAT BTech Degree Final Year Major Research Project. 
+CUSAT BTech Degree Final Year 8 th Semester Major Research Project. 
 
 ## Project Topic
 Open Jobs Analyzer and Recommendation System using Content Based Filtering
