@@ -248,7 +248,8 @@ data.drop_duplicates(subset = None, keep = 'first', inplace = True)
 def show_recommendation_page():
     
     st.subheader("📃Job Recommenation")
-    x = pd.crosstab(data['Education'],data['Industry'])
+    x = pd.crosstab(data['Skills'],data['Industry'],aggfunc='count')
+    
 
     Industry = st.selectbox("Industry", list(data['Industry'].value_counts().index))
     job = x[Industry]
@@ -256,3 +257,10 @@ def show_recommendation_page():
     similar_jobs = similar_jobs.sort_values(ascending=False)
     similar_jobs = similar_jobs.iloc[2:]
     st.write(similar_jobs.head(3))
+
+    
+    # jobs = z[Industry]
+    # similar_jobs = z.corrwith(jobs)
+    # similar_jobs = similar_jobs.sort_values(ascending=False)
+    # similar_jobs = similar_jobs.iloc[2:]
+    # st.write(similar_jobs.head(3))
