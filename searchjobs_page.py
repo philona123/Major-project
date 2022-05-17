@@ -8,6 +8,8 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity,linear_kernel
 import numpy as np
+from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
+
 
 
 data = pd.read_csv('naukri.csv')
@@ -255,15 +257,24 @@ def show_searchjobs_page():
     Experience = st.selectbox("Experience", list(data['Min Experience'].value_counts().sort_values(ascending = False).index))
     Vacancies = st.slider("Vaccancies", 0)
 
-    st.write(data.loc[(data['numberofpositions'] > Vacancies)
+   
+    df = pd.DataFrame(data.loc[(data['numberofpositions'] > Vacancies)
                    & (data['joblocation_adress'] == City)
                    & (data['Industry'] == Industry)
                    & (data['Min Experience'] == Experience)][[
-                                                      'company',
-                                                      'jobtitle',
+                                                      'Company',
+                                                      'Job Title',
                                                       'Education',
-                                                      'payrate',
+                                                      'Salary Range',
                                                       'numberofpositions',
                                                       ]])
+  
+    gb = GridOptionsBuilder.from_dataframe(df)  
+    gb.configure_pagination(paginationAutoPageSize=True)
+    gb.configure_side_bar()
+    gridOptions = gb.build()
+    AgGrid(df,theme='streamlit',gridOptions=gridOptions)
+    
 
 
+    

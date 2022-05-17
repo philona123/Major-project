@@ -8,6 +8,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity,linear_kernel
 import numpy as np
+from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 
 
 data = pd.read_csv('naukri.csv')
@@ -252,15 +253,13 @@ def show_recommendation_page():
     
 
     Industry = st.selectbox("Industry", list(data['Industry'].value_counts().index))
+    st.subheader("Top 3 Similar Industries Recommended by the System ")
     job = x[Industry]
     similar_jobs = x.corrwith(job)
     similar_jobs = similar_jobs.sort_values(ascending=False)
     similar_jobs = similar_jobs.iloc[2:]
-    st.write(similar_jobs.head(3))
+    
+    st.table(similar_jobs.head(3))
 
     
-    # jobs = z[Industry]
-    # similar_jobs = z.corrwith(jobs)
-    # similar_jobs = similar_jobs.sort_values(ascending=False)
-    # similar_jobs = similar_jobs.iloc[2:]
-    # st.write(similar_jobs.head(3))
+   
