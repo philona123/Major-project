@@ -249,7 +249,7 @@ data.drop_duplicates(subset = None, keep = 'first', inplace = True)
 #..............................................Recommendation Function...............................................
 def show_recommendation_page():
     
-    st.subheader("📃Industry Recommenation")
+    st.subheader("📃Industry Recommendation")
     st.write("""
     ***
     """)
