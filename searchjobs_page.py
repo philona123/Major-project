@@ -9,7 +9,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity,linear_kernel
 import numpy as np
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
-
+import requests
+from streamlit_lottie import st_lottie
 
 
 data = pd.read_csv('naukri.csv')
@@ -252,12 +253,33 @@ data.drop_duplicates(subset = None, keep = 'first', inplace = True)
 def show_searchjobs_page():
 
     st.subheader("🔍Search Jobs")
-    City = st.selectbox("City", list(data['joblocation_adress'].value_counts().index))
-    Industry = st.selectbox("Industry", list(data['Industry'].value_counts().index))
-    Experience = st.selectbox("Experience", list(data['Min Experience'].value_counts().sort_values(ascending = False).index))
-    Vacancies = st.slider("Vaccancies", 0)
+    st.write("""
+    ***
+    """)
 
-   
+    def load_lottie_url(url: str):
+        r = requests.get(url)
+        if r.status_code != 200:
+            return None
+        return r.json()
+
+    lottie_animation_1 = "https://assets1.lottiefiles.com/packages/lf20_cdhfmdzy.json"
+ 
+    lottie_anime_json = load_lottie_url(lottie_animation_1)
+  
+    col1, col2 = st.columns(2)
+    
+    with col1:
+      City = st.selectbox("City", list(data['joblocation_adress'].value_counts().index))
+      Industry = st.selectbox("Industry", list(data['Industry'].value_counts().index))
+      Experience = st.selectbox("Experience", list(data['Min Experience'].value_counts().sort_values(ascending = False).index))
+      Vacancies = st.slider("Vaccancies", 0)
+
+    with col2:
+        st_lottie(lottie_anime_json, key = "hi")
+
+    st.markdown("***")
+    
     df = pd.DataFrame(data.loc[(data['numberofpositions'] > Vacancies)
                    & (data['joblocation_adress'] == City)
                    & (data['Industry'] == Industry)

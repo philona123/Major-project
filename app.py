@@ -318,8 +318,8 @@ def shows_analysis():
   # Top Companies Providing Jobs Graph
   st.write("Top Companies Providing Jobs")
   fig=plt.figure(figsize=(10,8))
-  sns.barplot(y = data['company'].value_counts().head(30).index,
-              x = data['company'].value_counts().head(30).values,
+  sns.barplot(y = data['Company'].value_counts().head(30).index,
+              x = data['Company'].value_counts().head(30).values,
               palette = 'inferno')
   plt.title('Top Companies providing Jobs', fontsize = 20)
   plt.yticks(fontsize = 15)

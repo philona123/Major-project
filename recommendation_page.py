@@ -9,7 +9,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity,linear_kernel
 import numpy as np
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
-
+import requests
+from streamlit_lottie import st_lottie
 
 data = pd.read_csv('naukri.csv')
 
@@ -248,18 +249,37 @@ data.drop_duplicates(subset = None, keep = 'first', inplace = True)
 #..............................................Recommendation Function...............................................
 def show_recommendation_page():
     
-    st.subheader("📃Job Recommenation")
-    x = pd.crosstab(data['Skills'],data['Industry'])
+    st.subheader("📃Industry Recommenation")
+    st.write("""
+    ***
+    """)
+
+    def load_lottie_url(url: str):
+        r = requests.get(url)
+        if r.status_code != 200:
+            return None
+        return r.json()
+
+    lottie_animation_1 = "https://assets5.lottiefiles.com/packages/lf20_61aRBR.json"
+ 
+    lottie_anime_json = load_lottie_url(lottie_animation_1)
+  
+    col1, col2 = st.columns(2)
+    
+    with col1:
+      x = pd.crosstab(data['Skills'],data['Industry'])
     
 
-    Industry = st.selectbox("Industry", list(data['Industry'].value_counts().index))
-    st.subheader("Top 3 Similar Industries Recommended by the System ")
-    job = x[Industry]
-    similar_jobs = x.corrwith(job)
-    similar_jobs = similar_jobs.sort_values(ascending=False)
-    similar_jobs = similar_jobs.iloc[2:]
+      Industry = st.selectbox("Industry", list(data['Industry'].value_counts().index))
+      st.subheader("Top 3 Similar Industries Recommended by the System ")
+      job = x[Industry]
+      similar_jobs = x.corrwith(job)
+      similar_jobs = similar_jobs.sort_values(ascending=False)
+      similar_jobs = similar_jobs.iloc[2:]
     
-    st.table(similar_jobs.head(3))
+      st.table(similar_jobs.head(3))
 
-    
+    with col2:
+        st_lottie(lottie_anime_json, key = "hi")
+
    
