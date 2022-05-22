@@ -35,7 +35,7 @@ def show_home_page():
 - Datasetet Overwiew
             """
             )
-        st.write("Please choose your desired version from the side menu and enjoy using the Web application.")
+        st.write("Please choose your desired version from the side menu and enjoy using the Web application..")
     with col2:
     
         st_lottie(lottie_anime_json, key = "hi")
