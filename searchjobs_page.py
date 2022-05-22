@@ -2,7 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as stc 
 import matplotlib.pyplot as plt 
 import matplotlib
-matplotlib.use("TkAgg")
+# matplotlib.use("TkAgg")
 import seaborn as sns
 import pandas as pd 
 from sklearn.feature_extraction.text import CountVectorizer
