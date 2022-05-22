@@ -249,8 +249,8 @@ data.drop_duplicates(subset = None, keep = 'first', inplace = True)
 
 def shows_analysis():
     # Location with Highest Jobs
-  st.header("📊Analysis Results📉")
-  st.subheader("Location with highest Jobs")
+  st.subheader("📊Analysis Results📉")
+  st.write("Location with highest Jobs")
   fig=plt.figure(figsize=(10,4))
   sns.countplot(data['joblocation_adress'], palette = 'inferno')
   plt.title('Locations with Highest Jobs', fontsize = 20)
@@ -260,14 +260,14 @@ def shows_analysis():
 
 
   # Minimum Experience graph
-  st.subheader("Minimum Experience vs Vacancies")
+  st.write("Minimum Experience vs Vacancies")
   fig=plt.figure(figsize=(10,4))
   sns.countplot(data['Min Experience'], palette = 'magma')
   plt.xticks(fontsize=9)
   st.pyplot(fig)
 
   # Maximum Experience Graph
-  st.subheader("Maximum Experience vs Vacancies")
+  st.write("Maximum Experience vs Vacancies")
   fig=plt.figure(figsize=(10,4))
   sns.countplot(data['Max Experience'], palette = 'magma')
   plt.xticks(fontsize=9)
@@ -275,7 +275,7 @@ def shows_analysis():
 
 
   # Vacancies for Different Education
-  st.subheader("Vacancies for different Education")
+  st.write("Vacancies for different Education")
   fig=plt.figure(figsize=(10,4))
   x = data[data['Education'] != 'Any']
   sns.countplot(y = x['Education'], palette = 'inferno')
@@ -285,7 +285,7 @@ def shows_analysis():
 
   # Top Sectors for Jobs Graph
   fig=plt.figure(figsize=(10,4))
-  st.subheader("Top Sectors for Jobs")
+  st.write("Top Sectors for Jobs")
   plt.title('Top Sectors for Jobs', fontsize = 20)
   sns.barplot(y = data['Industry'].value_counts().head(10).index,
               x = data['Industry'].value_counts().head(10).values,
@@ -294,7 +294,7 @@ def shows_analysis():
   st.pyplot(fig)
 
   # Minimum Experience required from each Industry
-  st.subheader("Minimum Experience required from each Industry")
+  st.write("Minimum Experience required from each Industry")
   fig=plt.figure(figsize=(13,6))
   plt.title('Minimum Experience required from each Industry')
   sns.barplot(data['Industry'], data['Min Experience'], palette = 'magma')
@@ -303,7 +303,7 @@ def shows_analysis():
 
 
   # Requirement of Overall Skills Grpah
-  st.subheader("Requirement of Overall Skills")
+  st.write("Requirement of Overall Skills")
   fig=plt.figure(figsize=(10,4))
   plt.title('Requirement of Overall Skills', fontsize = 20)
   data['Skills'].value_counts().head(25).plot(kind = 'bar', color = 'black')
@@ -316,10 +316,10 @@ def shows_analysis():
 
 
   # Top Companies Providing Jobs Graph
-  st.subheader("Top Companies Providing Jobs")
+  st.write("Top Companies Providing Jobs")
   fig=plt.figure(figsize=(10,8))
-  sns.barplot(y = data['Company'].value_counts().head(30).index,
-              x = data['Company'].value_counts().head(30).values,
+  sns.barplot(y = data['company'].value_counts().head(30).index,
+              x = data['company'].value_counts().head(30).values,
               palette = 'inferno')
   plt.title('Top Companies providing Jobs', fontsize = 20)
   plt.yticks(fontsize = 15)
