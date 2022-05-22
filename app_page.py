@@ -34,16 +34,35 @@ st.markdown(
     padding: 1rem 1rem 10rem;`
     max-width: 46rem;
 }
-element.style {
-    width: 30%;
-    height: 100%;
-    transform: translate3d(0px, 0px, 0px);
-    content-visibility: visible;
-}
 .css-18e3th9 {
-    padding-left: 12rem;
+    padding-left: 5rem;
     padding-right: 5rem;
 }
+b, strong {
+    font-weight: 600;
+     color: #28bdb5;
+     font-size: 30px;
+}
+
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    color: #28bdb5;
+    font-weight: 600;
+
+
+}
+p, ol, ul, dl {
+    margin: 0px 0px 1rem;
+    padding: 0px;
+    font-size: 18px;
+    font-weight: 400;
+}
+em {
+    font-style: italic;
+    color: #28bdb5;
+}
+
 </style>
 """,
 unsafe_allow_html=True
